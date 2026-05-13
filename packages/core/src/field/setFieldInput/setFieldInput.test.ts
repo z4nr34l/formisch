@@ -1,6 +1,7 @@
 import * as v from 'valibot';
 import { describe, expect, test } from 'vitest';
 import { createTestStore } from '../../vitest/index.ts';
+import { getFieldBool } from '../getFieldBool/getFieldBool.ts';
 import { getFieldInput } from '../getFieldInput/getFieldInput.ts';
 import { setFieldInput } from './setFieldInput.ts';
 
@@ -117,6 +118,26 @@ describe('setFieldInput', () => {
       });
       setFieldInput(store, ['items'], ['a']);
       expect(store.children.items.isDirty.value).toBe(true);
+    });
+
+    test('should clear array isDirty after reverting to initial input', () => {
+      const store = createTestStore(v.object({ items: v.array(v.string()) }), {
+        initialInput: { items: ['a', 'b', 'c', 'd'] },
+      });
+      setFieldInput(store, ['items'], ['b', 'c', 'd']);
+      expect(getFieldBool(store.children.items, 'isDirty')).toBe(true);
+      setFieldInput(store, ['items'], ['a', 'b', 'c', 'd']);
+      expect(getFieldBool(store.children.items, 'isDirty')).toBe(false);
+    });
+
+    test('should clear array isDirty after reverting from longer back to initial', () => {
+      const store = createTestStore(v.object({ items: v.array(v.string()) }), {
+        initialInput: { items: ['a', 'b'] },
+      });
+      setFieldInput(store, ['items'], ['a', 'b', 'c']);
+      expect(getFieldBool(store.children.items, 'isDirty')).toBe(true);
+      setFieldInput(store, ['items'], ['a', 'b']);
+      expect(getFieldBool(store.children.items, 'isDirty')).toBe(false);
     });
   });
 
