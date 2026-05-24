@@ -26,8 +26,13 @@ export const ThemeToggle = component$<ThemeToggleProps>((props) => {
    * Handles client-side theme change actions.
    */
   const onClick = $(() => {
+    // Disable CSS transitions
     disableTransitions();
+
+    // Track change theme event
     trackEvent('change_theme', { theme: nextTheme.value });
+
+    // Toggle the theme
     themeToggle();
   });
 

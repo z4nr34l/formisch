@@ -23,26 +23,33 @@ export const HeadContent = component$(() => {
 
   // Compute document title
   const documentTitle = useComputed$(() => {
+    // Create title variable
     let title = '';
 
+    // Get framework, area and page from pathname
     const [, framework, area, page] = location.url.pathname.split('/');
 
+    // Add area name if available
     const areaName = getAreaName(area);
     if (areaName && page) {
       title += `${areaName}: `;
     }
 
+    // Add actual page title
     title += head.title;
 
+    // Add framework name if available
     const frameworkName = getFrameworkName(framework);
     if (frameworkName) {
       title += ` (${frameworkName})`;
     }
 
+    // Add suffix for non-homepage pages
     if (location.url.pathname !== '/') {
       title += ' | Formisch';
     }
 
+    // Return title
     return title;
   });
 

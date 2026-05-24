@@ -16,6 +16,7 @@ function frameworkFromPathname(pathname: string): Framework {
  * Returns the current menu based on the framework in the URL and the docs area.
  */
 export const useMenu = routeLoader$(async ({ pathname }) => {
+  // Determine area and framework
   const area = pathname.split('/')[2];
   const framework = frameworkFromPathname(pathname);
 
@@ -24,6 +25,7 @@ export const useMenu = routeLoader$(async ({ pathname }) => {
     import.meta.glob<{ default: ContentMenu }>('./**/menu.md')
   ).find(([path]) => path.includes(`/${framework}/${area}/`));
 
+  // Return menu or null
   if (menuEntry) {
     const [, readFile] = menuEntry;
     return (await readFile()).default;
@@ -35,9 +37,11 @@ export const useMenu = routeLoader$(async ({ pathname }) => {
  * Returns all hrefs from other menus in the same area but different frameworks.
  */
 export const useOtherMenuHrefs = routeLoader$(async ({ pathname }) => {
+  // Determine area and framework
   const area = pathname.split('/')[2];
   const framework = frameworkFromPathname(pathname);
 
+  // Load, filter and read all other menus
   const menus = await Promise.all(
     Object.entries(import.meta.glob<{ default: ContentMenu }>('./**/menu.md'))
       .filter(
@@ -47,6 +51,7 @@ export const useOtherMenuHrefs = routeLoader$(async ({ pathname }) => {
       .map(async ([, readFile]) => (await readFile()).default)
   );
 
+  // Return all hrefs from other menus
   return menus.flatMap((menu) =>
     menu.items?.flatMap((item) => item.items).map((item) => item?.href)
   );
