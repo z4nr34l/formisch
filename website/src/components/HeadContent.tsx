@@ -3,7 +3,9 @@ import { useDocumentHead, useLocation } from '@qwik.dev/router';
 import { FRAMEWORK_LIST } from '~/routes/plugin@framework';
 import { getAreaName, getFrameworkName } from '~/utils';
 
-const THEME_INIT_SCRIPT = `try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.classList.toggle('dark',t==='dark');}catch(e){}`;
+const THEME_INIT_SCRIPT = `try{var t=localStorage.getItem('theme');document.documentElement.classList.toggle('dark',t==='dark'||t!=='light'&&!matchMedia('(prefers-color-scheme:light)').matches);}catch(e){}`;
+
+const CHAPTERS_INIT_SCRIPT = `try{document.documentElement.classList.toggle('no-chapters',localStorage.getItem('chapters')==='false');}catch(e){}`;
 
 function ogImagePath(pathname: string): string {
   if (pathname === '/') return '/og/index.png';
@@ -75,6 +77,9 @@ export const HeadContent = component$(() => {
     <>
       {/* Pre-hydration theme + FOUC fix */}
       <script dangerouslySetInnerHTML={THEME_INIT_SCRIPT} />
+
+      {/* Pre-hydration chapters visibility to avoid a layout shift */}
+      <script dangerouslySetInnerHTML={CHAPTERS_INIT_SCRIPT} />
 
       {/* Document title */}
       <title>{documentTitle.value}</title>

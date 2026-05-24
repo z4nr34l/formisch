@@ -373,6 +373,7 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
                   ref={inputElement}
                   name="search"
                   type="search"
+                  autoComplete="off"
                   placeholder="Search docs"
                   value={input.value}
                   onInput$={(_, element) => (input.value = element.value)}

@@ -27,7 +27,6 @@ export const useThemeProvider = () => {
       if (stored === 'light' || stored === 'dark') {
         theme.value = stored;
       } else if (
-        window.matchMedia &&
         window.matchMedia('(prefers-color-scheme: light)').matches
       ) {
         theme.value = 'light';

@@ -9,6 +9,15 @@ import {
   useVisibleTask$,
 } from '@qwik.dev/core';
 
+const STORAGE_KEY = 'chapters';
+
+/**
+ * Class added to `<html>` while chapters are hidden. The layout reacts to it
+ * via the `chapters` / `no-chapters` Tailwind variants, and an inline script
+ * in the document head sets it before first paint to avoid layout shift.
+ */
+const HIDDEN_CLASS = 'no-chapters';
+
 const ChaptersContext = createContextId<Signal<boolean>>('chapters');
 
 /**
@@ -21,13 +30,16 @@ export const useChaptersProvider = () => {
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {
     try {
-      const stored = localStorage.getItem('chapters');
+      const stored = localStorage.getItem(STORAGE_KEY);
       if (stored === 'true' || stored === 'false') {
         chapters.value = stored === 'true';
       }
     } catch {
       // ignore
     }
+    // Keep the signal and the root class in sync (the inline head script has
+    // already applied the class before paint).
+    document.documentElement.classList.toggle(HIDDEN_CLASS, !chapters.value);
   });
 
   return chapters;
@@ -47,9 +59,10 @@ export const useChaptersToggle = (): QRL<() => void> => {
     const next = !chapters.value;
     chapters.value = next;
     try {
-      localStorage.setItem('chapters', String(next));
+      localStorage.setItem(STORAGE_KEY, String(next));
     } catch {
       // ignore
     }
+    document.documentElement.classList.toggle(HIDDEN_CLASS, !next);
   });
 };
