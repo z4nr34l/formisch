@@ -86,7 +86,7 @@ export const DocsLayout = component$(() => {
     <div
       class={clsx(
         'flex w-full flex-1 flex-col-reverse self-center lg:flex-row',
-        'max-w-(--breakpoint-2xl) no-chapters:max-w-(--breakpoint-xl)'
+        'no-chapters:max-w-(--breakpoint-xl) max-w-(--breakpoint-2xl)'
       )}
     >
       {/* Side bar navigation */}
@@ -103,7 +103,7 @@ export const DocsLayout = component$(() => {
         <Navigation
           class={clsx(
             'px-8 py-9 lg:w-60 lg:py-24 xl:py-32',
-            '2xl:w-64 no-chapters:2xl:w-72'
+            'no-chapters:2xl:w-72 2xl:w-64'
           )}
         />
       </SideBar>
@@ -113,14 +113,14 @@ export const DocsLayout = component$(() => {
           'relative flex-1 py-12 md:py-14 lg:w-px lg:py-24 xl:py-32',
           // Shown: padding on both sides. Hidden: drop the right padding so the
           // article fills the freed chapters column (a same-property override).
-          'lg:pl-9 lg:pr-9 no-chapters:lg:pr-0'
+          'no-chapters:lg:pr-0 lg:pr-9 lg:pl-9'
         )}
       >
         {/* Navigation buttons */}
         <nav
           class={clsx(
             'hidden px-8 lg:absolute lg:flex lg:gap-6 lg:px-10',
-            'lg:right-9 no-chapters:lg:right-0'
+            'no-chapters:lg:right-0 lg:right-9'
           )}
         >
           <NavButtons
@@ -180,7 +180,7 @@ export const DocsLayout = component$(() => {
 
       {/* Always rendered so the root `.no-chapters` class can hide it before
           paint without a layout shift. */}
-      <aside class="hidden xl:block no-chapters:xl:hidden xl:w-60 xl:px-8 xl:py-32 2xl:w-64">
+      <aside class="no-chapters:xl:hidden hidden xl:block xl:w-60 xl:px-8 xl:py-32 2xl:w-64">
         <Chapters />
       </aside>
     </div>

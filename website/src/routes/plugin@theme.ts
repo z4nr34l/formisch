@@ -26,9 +26,7 @@ export const useThemeProvider = () => {
       const stored = localStorage.getItem('theme');
       if (stored === 'light' || stored === 'dark') {
         theme.value = stored;
-      } else if (
-        window.matchMedia('(prefers-color-scheme: light)').matches
-      ) {
+      } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
         theme.value = 'light';
       }
     } catch {

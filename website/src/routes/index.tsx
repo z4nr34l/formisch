@@ -1,8 +1,4 @@
-import {
-  component$,
-  createComputed$,
-  useSignal,
-} from '@qwik.dev/core';
+import { component$, createComputed$, useSignal } from '@qwik.dev/core';
 import { type DocumentHead } from '@qwik.dev/router';
 import clsx from 'clsx';
 import { ActionButton, ButtonGroup, Expandable, TextLink } from '~/components';

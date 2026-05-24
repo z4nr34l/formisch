@@ -61,8 +61,8 @@ function extractFromMdx(source: string): {
   }
 }
 
-const QUOTED_STRING =
-  /("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)/.source;
+const QUOTED_STRING = /("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)/
+  .source;
 
 function extractFromTsx(source: string): {
   title?: string;
